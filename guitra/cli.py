@@ -5,6 +5,7 @@ import sys
 import time
 from pathlib import Path
 
+from . import __version__
 from .rig import DEFAULT_RIGS, Rig, load_rig
 
 
@@ -54,10 +55,26 @@ def cmd_run(args) -> None:
 
     rig = _rig(args)
     session = Session(rig, HandTracker(Path(args.model)))
-    source = args.video if args.video else int(args.camera)
+    if args.video:
+        source = args.video
+    else:
+        try:
+            source = int(args.camera)
+        except ValueError:
+            source = args.camera
+
     cap = cv2.VideoCapture(source)
     if not cap.isOpened():
-        sys.exit(f"Couldn't open video source {source!r}")
+        if args.video:
+            sys.exit(f"Error: Couldn't open video file {source!r}. Check that the file exists and is a valid video.")
+        sys.exit(
+            f"Error: Couldn't open camera {source!r}.\n\n"
+            f"Troubleshooting hints:\n"
+            f"  - Check that your camera is plugged in and recognized by your system.\n"
+            f"  - Ensure no other application (Zoom, Teams, Discord, browser) is using the camera.\n"
+            f"  - Try another camera index (e.g. `--camera 1` or `--camera 2`).\n"
+            f"  - On Windows, check Settings > Privacy & security > Camera to ensure camera access is allowed."
+        )
     fps = cap.get(cv2.CAP_PROP_FPS) or 30.0
 
     transcriber = _make_transcriber(args.transcriber, rig)
@@ -121,6 +138,7 @@ def cmd_run(args) -> None:
 
 def main(argv: list[str] | None = None) -> None:
     p = argparse.ArgumentParser(prog="guitra", description="Practice coach for guitar and bass.")
+    p.add_argument("--version", action="version", version=f"%(prog)s {__version__}")
     sub = p.add_subparsers(dest="cmd", required=True)
 
     def rig_args(sp):
