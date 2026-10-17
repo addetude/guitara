@@ -1,0 +1,29 @@
+# guitra rig: a 25.5" scale electric guitar (Stratocaster-style), right-handed player.
+# Measure your own guitar and replace the marker positions with real numbers:
+#   x_mm = distance from the nut towards the body to the marker's centre (negative = headstock)
+#   y_mm = distance from the neck's centre line (negative = towards the low E side)
+# Stick markers upright as seen from the front: top edge towards the low strings.
+
+instrument = "guitar"
+handed = "right"
+scale_length_mm = 648
+frets = 22
+tuning = ["E2", "A2", "D3", "G3", "B3", "E4"]
+
+[[markers]]
+id = 0          # headstock, just past the nut
+x_mm = -40
+y_mm = 0
+size_mm = 25
+
+[[markers]]
+id = 1          # body, treble side of the neck joint
+x_mm = 491
+y_mm = 56
+size_mm = 30
+
+[[markers]]
+id = 2          # body, bass side of the neck joint
+x_mm = 491
+y_mm = -56
+size_mm = 30

@@ -1,0 +1,29 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "guitra"
+version = "0.1.0"
+description = "A practice coach for electric guitar and bass: camera + audio feedback on what you're doing wrong."
+readme = "README.md"
+requires-python = ">=3.11"
+dependencies = [
+  "numpy>=1.24",
+  "opencv-python>=4.8",   # ArUco lives in the main package since 4.7
+  "mediapipe>=0.10.14",
+]
+
+[project.optional-dependencies]
+audio = ["sounddevice>=0.4"]           # live input from your audio interface
+transcribe = ["basic-pitch>=0.3"]      # Spotify Basic Pitch (polyphonic, heavier)
+dev = ["pytest>=8"]
+
+[project.scripts]
+guitra = "guitra.cli:main"
+
+[tool.setuptools]
+packages = ["guitra"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
