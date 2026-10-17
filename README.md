@@ -38,9 +38,17 @@ Alerts have to persist briefly before firing and won't repeat for a few seconds.
 
 Requires Python 3.11+.
 
+**macOS / Linux:**
 ```bash
 python -m venv .venv && source .venv/bin/activate
 pip install -e ".[audio,dev]"          # add ,transcribe for Basic Pitch (large install)
+```
+
+**Windows (PowerShell):**
+```powershell
+python -m venv .venv
+.\.venv\Scripts\Activate.ps1
+pip install -e ".[audio,dev]"
 ```
 
 1. **Print markers**: `guitra markers --rig examples/guitar.toml --out markers.png`. Print at
@@ -78,5 +86,5 @@ See [docs/ARCHITECTURE.md](docs/ARCHITECTURE.md) for how each piece works.
 ## Development
 
 ```bash
-pytest          # 33 tests: fretboard geometry, marker detection, mapping, coach rules, transcription
+pytest          # 36 tests: fretboard geometry, marker detection, mapping, coach rules, transcription, CLI
 ```
